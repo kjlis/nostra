@@ -9,7 +9,10 @@ var _ = require('lodash');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var eslint = require('gulp-eslint');
-
+// var plugins = (require('gulp-load-plugins')());
+var pump = require('pump');
+var ngAnnotate = require('gulp-ng-annotate');
+var uglify = require('gulp-uglify');
 var config = {
     entryFile: './app/app.js',
     outputDir: './dist/',
@@ -41,6 +44,15 @@ function bundle() {
         .pipe(reload({stream: true}));
 }
 
+gulp.task('compress', () => {
+    pump([
+        gulp.src('dist/app.js'),
+        ngAnnotate(),
+        uglify(),
+        gulp.dest('dist/')
+    ])
+});
+
 gulp.task('lint', () => {
     return gulp.src(['./app/**/*.js', '!node_modules/**'])
         .pipe(eslint())
@@ -52,7 +64,7 @@ gulp.task('build-persistent', ['clean', 'lint'], () => {
     return bundle();
 });
 
-gulp.task('build', ['build-persistent'], () => {
+gulp.task('build', ['build-persistent', 'compress'], () => {
     process.exit(0);
 });
 
