@@ -1,0 +1,17 @@
+<md-content>
+
+</md-content>
+
+<div layout="column" layout-fill>
+        <md-nav-bar md-selected-nav-item="home.currentNavItem" nav-bar-aria-label="abc">
+            <md-nav-item name="home" md-nav-sref="home">Home</md-nav-item>
+            <md-nav-item name="loan" md-nav-sref="home">Loan Statistics</md-nav-item>
+            <md-nav-item name="investor" md-nav-sref="home">Investor Statistics</md-nav-item>
+        </md-nav-bar>
+    <md-content>
+        <div google-chart chart="home.chart" chart-wrapper="home.wrapper" agc-on-select="home.selectRegion(selectedItem)"></div>
+    </md-content>
+</div>
+
+
+
