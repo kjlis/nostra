@@ -9,7 +9,6 @@ var _ = require('lodash');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var eslint = require('gulp-eslint');
-// var plugins = (require('gulp-load-plugins')());
 var pump = require('pump');
 var ngAnnotate = require('gulp-ng-annotate');
 var uglify = require('gulp-uglify');
@@ -18,6 +17,19 @@ var config = {
     outputDir: './dist/',
     outputFile: 'app.js'
 };
+
+var sass = require('gulp-sass');
+
+gulp.task('sass', function () {
+    return gulp.src('./app/main.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./dist/css'))
+        .pipe(reload({stream: true}));
+});
+
+gulp.task('sass:watch', function () {
+    gulp.watch('./app/**/*.scss', ['sass']);
+});
 
 gulp.task('clean', (cb) => {
     rimraf(config.outputDir, cb);
@@ -60,7 +72,7 @@ gulp.task('lint', () => {
         .pipe(eslint.failAfterError());
 });
 
-gulp.task('build-persistent', ['clean', 'lint'], () => {
+gulp.task('build-persistent', ['clean', 'lint', 'sass'], () => {
     return bundle();
 });
 
@@ -69,13 +81,16 @@ gulp.task('build', ['build-persistent', 'compress'], () => {
 });
 
 
-gulp.task('watch', ['build-persistent'], () => {
+gulp.task('watch', ['build-persistent', 'sass:watch'], () => {
 
     browserSync({
         server: {
             baseDir: './'
         }
     });
+
+    gulp.watch('./**/**/*.html')
+        .on('change', reload);
 
     getBundler().on('update', () => {
         gulp.start('build-persistent')

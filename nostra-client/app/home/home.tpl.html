@@ -3,13 +3,65 @@
 </md-content>
 
 <div layout="column" layout-fill>
-        <md-nav-bar md-selected-nav-item="home.currentNavItem" nav-bar-aria-label="abc">
-            <md-nav-item name="home" md-nav-sref="home">Home</md-nav-item>
-            <md-nav-item name="loan" md-nav-sref="home">Loan Statistics</md-nav-item>
-            <md-nav-item name="investor" md-nav-sref="home">Investor Statistics</md-nav-item>
-        </md-nav-bar>
+    <md-nav-bar md-selected-nav-item="home.currentNavItem" nav-bar-aria-label="abc">
+        <md-nav-item name="home" md-nav-sref="home">Home</md-nav-item>
+        <md-nav-item name="loan" md-nav-sref="home">Loan Statistics</md-nav-item>
+        <md-nav-item name="investor" md-nav-sref="home">Investor Statistics</md-nav-item>
+    </md-nav-bar>
+    <md-button class="md-fab md-fab-top-right">
+        <md-icon>assessment</md-icon>
+    </md-button>
     <md-content>
-        <div google-chart chart="home.chart" chart-wrapper="home.wrapper" agc-on-select="home.selectRegion(selectedItem)"></div>
+        <md-card>
+            <form name="loan-details">
+                <div layout-gt-xs="row">
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label>Amount</label>
+                        <input type="number" placeholder="Loan amount in USD" min="1" ng-model="home.loan.amount">
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label>Purpose</label>
+                        <md-select ng-model="home.loan.purpose">
+                            <md-option ng-repeat="type in home.loanTypes" value="{{type.code}}">
+                                {{type.title}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label>FICO®</label>
+                        <input type="number" placeholder="FICO credit rating" min="1" ng-model="home.loan.fico">
+                    </md-input-container>
+                </div>
+                <div layout-gt-xs="row">
+
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label>Term</label>
+                        <md-select ng-model="home.loan.term">
+                            <md-option ng-repeat="term in [36,  60]" value="{{term}}">
+                                {{term}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </form>
+        </md-card>
+        <md-card>
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title">Loan Issuance by States</span>
+
+
+                </md-card-header-text>
+            </md-card-header>
+            <md-card-content>
+                <div google-chart chart="home.chart" chart-wrapper="home.wrapper"
+                     agc-on-select="home.selectRegion(selectedItem)"></div>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button>Action 1</md-button>
+                <md-button>Action 2</md-button>
+            </md-card-actions>
+        </md-card>
     </md-content>
 </div>
 
