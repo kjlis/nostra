@@ -72,7 +72,7 @@ gulp.task('lint', () => {
         .pipe(eslint.failAfterError());
 });
 
-gulp.task('build-persistent', ['clean', 'lint', 'sass'], () => {
+gulp.task('build-persistent', ['lint', 'sass'], () => {
     return bundle();
 });
 
@@ -81,7 +81,7 @@ gulp.task('build', ['build-persistent', 'compress'], () => {
 });
 
 
-gulp.task('watch', ['build-persistent', 'sass:watch'], () => {
+gulp.task('watch', ['clean', 'build-persistent', 'sass:watch'], () => {
 
     browserSync({
         server: {

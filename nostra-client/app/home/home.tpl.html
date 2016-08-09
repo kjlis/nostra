@@ -4,64 +4,84 @@
 
 <div layout="column" layout-fill>
     <md-nav-bar md-selected-nav-item="home.currentNavItem" nav-bar-aria-label="abc">
-        <md-nav-item name="home" md-nav-sref="home">Home</md-nav-item>
-        <md-nav-item name="loan" md-nav-sref="home">Loan Statistics</md-nav-item>
-        <md-nav-item name="investor" md-nav-sref="home">Investor Statistics</md-nav-item>
+        <md-nav-item name="home.general" md-nav-sref="home.general">Home</md-nav-item>
+        <md-nav-item name="home.loans" md-nav-sref="home.loans">Loan Statistics</md-nav-item>
+        <md-nav-item name="home.investors" md-nav-sref="home.investors">Investor Statistics</md-nav-item>
     </md-nav-bar>
-    <md-button class="md-fab md-fab-top-right">
+    <md-button class="md-fab md-fab-top-right" ng-click="home.toggleForm()">
         <md-icon>assessment</md-icon>
     </md-button>
     <md-content>
-        <md-card>
-            <form name="loan-details">
+        <md-card ng-show="home.openForm">
+            <form name="loanDetails" ng-submit="home.calculatePD(loanDetails.$valid)">
                 <div layout-gt-xs="row">
                     <md-input-container class="md-block" flex-gt-xs>
                         <label>Amount</label>
-                        <input type="number" placeholder="Loan amount in USD" min="1" ng-model="home.loan.amount">
+                        <input type="number" min="1" ng-model="home.loan.amount">
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label>Interest rate</label>
+                        <input type="number" min="0" ng-model="home.loan.intRate" required>
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-xs>
                         <label>Purpose</label>
                         <md-select ng-model="home.loan.purpose">
-                            <md-option ng-repeat="type in home.loanTypes" value="{{type.code}}">
+                            <md-option ng-repeat="type in home.loanTypes" value="{{type.purpose}}" required>
                                 {{type.title}}
                             </md-option>
                         </md-select>
                     </md-input-container>
                     <md-input-container class="md-block" flex-gt-xs>
-                        <label>FICO®</label>
-                        <input type="number" placeholder="FICO credit rating" min="1" ng-model="home.loan.fico">
-                    </md-input-container>
-                </div>
-                <div layout-gt-xs="row">
-
-                    <md-input-container class="md-block" flex-gt-xs>
-                        <label>Term</label>
+                        <label>Term (months)</label>
                         <md-select ng-model="home.loan.term">
-                            <md-option ng-repeat="term in [36,  60]" value="{{term}}">
+                            <md-option ng-repeat="term in [36,  60]" value="{{term}}" required>
                                 {{term}}
                             </md-option>
                         </md-select>
                     </md-input-container>
                 </div>
+                <div layout-gt-xs="row">
+                    <md-autocomplete flex required
+                                     md-input-name="stateAutocomplete"
+                                     md-input-minlength="2"
+                                     md-input-maxlength="18"
+                                     md-selected-item="home.loan.state"
+                                     md-search-text="home.searchText"
+                                     md-items="item in home.querySearch(home.searchText)"
+                                     md-item-text="item.display"
+                                     md-floating-label="State">
+                        <md-item-template>
+                            <span md-highlight-text="home.searchText">{{item.display}}</span>
+                        </md-item-template>
+                        <div ng-messages="loanDetails.stateAutocomplete.$error" ng-if="loanDetails.stateAutocomplete.$touched">
+                            <div ng-message="required">You <b>must</b> select a state.</div>
+                            <div ng-message="minlength">Your entry is not long enough.</div>
+                            <div ng-message="maxlength">Your entry is too long.</div>
+                        </div>
+                    </md-autocomplete>
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label>Home Ownership</label>
+                        <md-select ng-model="home.loan.homeOwnership">
+                            <md-option ng-repeat="ownership in home.homeOwnershipTypes" value="{{ownership}}">
+                                {{ownership}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label>Employment Length</label>
+                        <md-select ng-model="home.loan.employmentLength">
+                            <md-option ng-repeat="length in home.employmentLengthOptions" value="{{length.value}}">
+                                {{length.title}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout-gt-xs="row" layout-align="end">
+                    <md-button class="md-raised md-primary" type="submit">Calculate PD</md-button>
+                </div>
             </form>
         </md-card>
-        <md-card>
-            <md-card-header>
-                <md-card-header-text>
-                    <span class="md-title">Loan Issuance by States</span>
-
-
-                </md-card-header-text>
-            </md-card-header>
-            <md-card-content>
-                <div google-chart chart="home.chart" chart-wrapper="home.wrapper"
-                     agc-on-select="home.selectRegion(selectedItem)"></div>
-            </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button>Action 1</md-button>
-                <md-button>Action 2</md-button>
-            </md-card-actions>
-        </md-card>
+        <ui-view></ui-view>
     </md-content>
 </div>
 
