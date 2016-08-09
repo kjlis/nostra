@@ -1,7 +1,7 @@
-import { states } from '../common/USStates';
+import {states} from '../common/USStates';
 
 export class HomeCtrl {
-    constructor($rootScope, $state) {
+    constructor($rootScope, $state, $mdDialog) {
         this.chart = {
             type: 'GeoChart',
             data: [
@@ -17,6 +17,8 @@ export class HomeCtrl {
             }
         };
         this.currentNavItem = $state.current.name;
+
+        this._mdDialog = $mdDialog;
 
         this.openForm = $state.is('home.general');
 
@@ -154,6 +156,11 @@ export class HomeCtrl {
 
     calculatePD(isValid) {
         console.log(isValid);
+        this._mdDialog.show({
+            clickOutsideToClose: true,
+            preserveScope: true,
+            templateUrl: './app/home/pd_dialog.tpl.html'
+        });
     }
 
 }
