@@ -48,10 +48,10 @@
                                      md-selected-item="home.loan.state"
                                      md-search-text="home.searchText"
                                      md-items="item in home.querySearch(home.searchText)"
-                                     md-item-text="item.display"
+                                     md-item-text="item.name"
                                      md-floating-label="State">
                         <md-item-template>
-                            <span md-highlight-text="home.searchText">{{item.display}}</span>
+                            <span md-highlight-text="home.searchText">{{item.name}}</span>
                         </md-item-template>
                         <div ng-messages="loanDetails.stateAutocomplete.$error" ng-if="loanDetails.stateAutocomplete.$touched">
                             <div ng-message="required">You <b>must</b> select a state.</div>
