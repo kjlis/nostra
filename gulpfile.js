@@ -13,8 +13,9 @@ var pump = require('pump');
 var ngAnnotate = require('gulp-ng-annotate');
 var uglify = require('gulp-uglify');
 var config = {
-    entryFile: './app/app.js',
-    outputDir: './dist/',
+    srcDir: './nostra-client/app/',
+    entryFile: './nostra-client/app/app.js',
+    outputDir: './nostra-client/dist/',
     outputFile: 'app.js'
 };
 var rename = require('gulp-rename');
@@ -25,21 +26,21 @@ gulp.task('clean', (cb) => {
 });
 
 gulp.task('sass', () => {
-    return gulp.src('./app/main.scss')
+    return gulp.src(config.srcDir + 'main.scss')
         .pipe(sass().on('error', sass.logError))
-        .pipe(gulp.dest('./dist/css'))
+        .pipe(gulp.dest(config.outputDir + 'css'))
         .pipe(reload({stream: true}));
 });
 
 gulp.task('html', () => {
-    return gulp.src('./app/templates/*.html')
-        .pipe(gulp.dest('./dist/templates'))
+    return gulp.src(config.srcDir + 'templates/*.html')
+        .pipe(gulp.dest(config.outputDir + 'templates'))
         .pipe(reload({stream: true}));
 });
 
 gulp.task('sass:watch', ['sass'], function () {
-    gulp.watch('./app/**/*.scss', ['sass']);
-    gulp.watch('./app/templates/*.html', ['html']);
+    gulp.watch(config.srcDir + '**/*.scss', ['sass']);
+    gulp.watch(config.srcDir + 'templates/*.html', ['html']);
 });
 
 
@@ -77,13 +78,13 @@ gulp.task('build-persistent', ['html', 'lint', 'sass'], () => {
 
 gulp.task('compress', ['build-persistent'], () => {
     return pump([
-        gulp.src('dist/app.js'),
+        gulp.src(config.outputDir + config.outputFile),
         ngAnnotate(),
         uglify(),
         rename({
             suffix: '.min'
         }),
-        gulp.dest('dist/')
+        gulp.dest(config.outputDir)
     ]);
 });
 
@@ -92,8 +93,8 @@ gulp.task('build', ['compress'], () => {
 });
 
 gulp.task('publish', ['build'], () => {
-    return gulp.src('./dist/**/*')
-        .pipe(gulp.dest('../nostra-service/public/dist/'))
+    return gulp.src(config.outputDir + '**/*')
+        .pipe(gulp.dest('./nostra-service/public/dist/'))
 });
 
 
@@ -101,7 +102,7 @@ gulp.task('watch', ['build-persistent', 'sass:watch'], () => {
 
     browserSync({
         server: {
-            baseDir: './'
+            baseDir: './nostra-client/'
         }
     });
 
@@ -114,7 +115,7 @@ gulp.task('watch', ['build-persistent', 'sass:watch'], () => {
 gulp.task('serve', () => {
     browserSync({
         server: {
-            baseDir: './'
+            baseDir: './nostra-client/'
         }
     });
 });
