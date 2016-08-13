@@ -1,6 +1,6 @@
 import angular from 'angular';
 import { HomeCtrl } from './home/HomeCtrl';
-import { GeneralCtrl } from './general/GeneralCtrl';
+import { GeoCtrl } from './geo/GeoCtrl';
 
 require('angular-google-chart');
 require('angular-animate');
@@ -16,29 +16,30 @@ angular.module('nostra', [
     'googlechart'
 ])
     .config(($stateProvider, $urlRouterProvider) => {
+        'ngInject';
         $stateProvider
             .state('home', {
                 url: '/',
-                templateUrl: './app/home/home.tpl.html',
+                templateUrl: './dist/templates/home.tpl.html',
                 controller: 'HomeCtrl as home',
                 abstract: true
             })
             .state('home.general', {
-                url: 'general',
-                templateUrl: './app/general/general.tpl.html',
-                controller: 'GeneralCtrl as general',
+                url: 'geo',
+                templateUrl: './dist/templates/geo.tpl.html',
+                controller: 'GeoCtrl as geo',
             })
             .state('home.loans', {
                 url: 'loans',
-                templateUrl: './app/loans/loans.tpl.html'
+                templateUrl: './dist/templates/loans.tpl.html'
             })
             .state('home.investors', {
                 url: 'investors',
-                templateUrl: './app/investors/investors.tpl.html'
+                templateUrl: './dist/templates/investors.tpl.html'
             });
 
-        $urlRouterProvider.otherwise('/general');
+        $urlRouterProvider.otherwise('/geo');
     })
     .controller('HomeCtrl', HomeCtrl)
-    .controller('GeneralCtrl', GeneralCtrl)
+    .controller('GeoCtrl', GeoCtrl)
 ;

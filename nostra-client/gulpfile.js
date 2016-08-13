@@ -17,23 +17,31 @@ var config = {
     outputDir: './dist/',
     outputFile: 'app.js'
 };
-
+var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 
-gulp.task('sass', function () {
+gulp.task('clean', (cb) => {
+    rimraf(config.outputDir, cb);
+});
+
+gulp.task('sass', () => {
     return gulp.src('./app/main.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('./dist/css'))
         .pipe(reload({stream: true}));
 });
 
-gulp.task('sass:watch', function () {
-    gulp.watch('./app/**/*.scss', ['sass']);
+gulp.task('html', () => {
+    return gulp.src('./app/templates/*.html')
+        .pipe(gulp.dest('./dist/templates'))
+        .pipe(reload({stream: true}));
 });
 
-gulp.task('clean', (cb) => {
-    rimraf(config.outputDir, cb);
+gulp.task('sass:watch', ['sass'], function () {
+    gulp.watch('./app/**/*.scss', ['sass']);
+    gulp.watch('./app/templates/*.html', ['html']);
 });
+
 
 var bundler;
 
@@ -56,15 +64,6 @@ function bundle() {
         .pipe(reload({stream: true}));
 }
 
-gulp.task('compress', () => {
-    pump([
-        gulp.src('dist/app.js'),
-        ngAnnotate(),
-        uglify(),
-        gulp.dest('dist/')
-    ])
-});
-
 gulp.task('lint', () => {
     return gulp.src(['./app/**/*.js', '!node_modules/**'])
         .pipe(eslint())
@@ -72,25 +71,39 @@ gulp.task('lint', () => {
         .pipe(eslint.failAfterError());
 });
 
-gulp.task('build-persistent', ['lint', 'sass'], () => {
+gulp.task('build-persistent', ['html', 'lint', 'sass'], () => {
     return bundle();
 });
 
-gulp.task('build', ['build-persistent', 'compress'], () => {
-    process.exit(0);
+gulp.task('compress', ['build-persistent'], () => {
+    return pump([
+        gulp.src('dist/app.js'),
+        ngAnnotate(),
+        uglify(),
+        rename({
+            suffix: '.min'
+        }),
+        gulp.dest('dist/')
+    ]);
+});
+
+gulp.task('build', ['compress'], () => {
+    getBundler().close();
+});
+
+gulp.task('publish', ['build'], () => {
+    return gulp.src('./dist/**/*')
+        .pipe(gulp.dest('../nostra-service/public/dist/'))
 });
 
 
-gulp.task('watch', ['clean', 'build-persistent', 'sass:watch'], () => {
+gulp.task('watch', ['build-persistent', 'sass:watch'], () => {
 
     browserSync({
         server: {
             baseDir: './'
         }
     });
-
-    gulp.watch('./**/**/*.html')
-        .on('change', reload);
 
     getBundler().on('update', () => {
         gulp.start('build-persistent')

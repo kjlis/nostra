@@ -7,15 +7,15 @@
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
-                The calculated probability of default for this loan is:
+                The calculated probability of default for this loan is: <strong>{{ home.currentLoan.pd }}%</strong>
                 Would you accept this loan?
             </div>
         </md-dialog-content>
         <md-dialog-actions layout-align="center center">
-            <md-button class="md-fab md-mini md-primary">
+            <md-button class="md-fab md-mini md-primary" ng-click="home.acceptLoan(true)">
                 <md-icon>thumb_up</md-icon>
             </md-button>
-            <md-button class="md-fab md-mini md-warn">
+            <md-button class="md-fab md-mini md-warn" ng-click="home.acceptLoan(false)">
                 <md-icon>thumb_down</md-icon>
             </md-button>
         </md-dialog-actions>

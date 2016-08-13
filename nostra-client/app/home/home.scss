@@ -1,4 +1,12 @@
 .home {
-  display: flex;
-  width: 57%;
+  .pd-form {
+    -webkit-transition: all linear 0.5s;
+    transition: all linear 0.5s;
+    position: relative;
+    top: 0;
+  }
+
+  .hidden {
+    top: -245px;
+  }
 }

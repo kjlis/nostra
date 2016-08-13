@@ -1,0 +1,29 @@
+{
+  "name": "nostra",
+  "version": "1.0.0",
+  "description": "App predicting probability of defaul for a loan based on LendingClub data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kjlis/nostra.git"
+  },
+  "keywords": [
+    "angular",
+    "express",
+    "mongo",
+    "lending",
+    "club"
+  ],
+  "author": "Krzysztof Lis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kjlis/nostra/issues"
+  },
+  "homepage": "https://github.com/kjlis/nostra#readme",
+  "dependencies": {
+    "mongodb": "^2.2.5"
+  }
+}
