@@ -5,14 +5,8 @@ export class GeoCtrl {
     constructor($resource, $mdDialog, $scope) {
         this._mdDialog = $mdDialog;
         this._scope = $scope;
-        this.geoResource = $resource('/geo/:stateCode', {stateCode: '@stateCode'});
-        // this.stateData = this.geoResource.query(() => {
-        //     this.stateData.unshift(['State', 'Total loan amn.', 'Avg loan amt.', 'Avg int. rate']);
-        // });
-        this.stateData = [
-            ['State', 'Total', 'Avg loan'],
-            ['New York', 100000, 150]
-        ];
+        this.geoResource = $resource('/loan/:stateCode', {stateCode: '@stateCode'});
+        this.stateData = [['State', 'Total loan amnt.']];
         this.chart = {
             type: 'GeoChart',
             data: this.stateData,
@@ -21,6 +15,12 @@ export class GeoCtrl {
                 resolution: 'provinces'
             }
         };
+        this.geoResource.query((statistics) => {
+            statistics.forEach((stat) => {
+                this.stateData.push([stat._id, stat.total]);
+            });
+        });
+
     }
 
     closeDialog() {
@@ -33,11 +33,9 @@ export class GeoCtrl {
         }
 
         this.selectedRegion = this.geoResource.get({
-            stateCode: states.find((el) => {
-                return el.name === this.stateData[this.lastSelectedRegionIndex + 1][0];
-            }).code
+            stateCode: this.stateData[this.lastSelectedRegionIndex + 1][0]
         });
-        this.selectedRegion = {};
+
         this.selectedRegion.name = 'California';
         this.selectedRegion.stats = [
             {name: 'Avg', value: 1},

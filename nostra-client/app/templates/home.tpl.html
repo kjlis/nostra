@@ -7,8 +7,8 @@
     <md-button class="md-fab md-fab-top-right" ng-click="home.toggleForm()">
         <md-icon>assessment</md-icon>
     </md-button>
-    <md-content>
-        <md-card class="pd-form" ng-class="{hidden: !home.openForm}">
+    <md-content layout="column" layout-align="center">
+        <md-card class="pd-form" flex="85" ng-class="{hidden: !home.openForm}">
             <form name="loanDetails" ng-submit="home.calculatePD(loanDetails.$valid)">
                 <div layout-gt-xs="row">
                     <md-input-container class="md-block" flex-gt-xs>
