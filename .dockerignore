@@ -38,3 +38,6 @@ jspm_packages
 #Project files
 .idea
 *.iml
+
+#Data scripts
+data_scripts
