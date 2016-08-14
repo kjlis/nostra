@@ -36,11 +36,6 @@ export class GeoCtrl {
             stateCode: this.stateData[this.lastSelectedRegionIndex + 1][0]
         });
 
-        this.selectedRegion.name = 'California';
-        this.selectedRegion.stats = [
-            {name: 'Avg', value: 1},
-            {name: 'Total', value: 5}
-        ];
         this._mdDialog.show({
             clickOutsideToClose: true,
             scope: this._scope,

@@ -10,12 +10,12 @@ const app = express();
 //MongoDB
 const mongoose = require('mongoose');
 require('./models/Loan');
-
+require('./models/Stats');
 mongoose.connect('mongodb://localhost/loans');
 
 //Routes
 const routes = require('./routes/index');
-const loans = require('./routes/loans');
+const loans = require('./routes/geo');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,7 +30,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/loan', loans);
+app.use('/geo', loans);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
