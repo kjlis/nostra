@@ -117,3 +117,7 @@ const LoanSchema = new mongoose.Schema({
 });
 
 mongoose.model('Loan', LoanSchema);
+
+let a = {
+
+}
