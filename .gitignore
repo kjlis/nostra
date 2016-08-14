@@ -4,8 +4,9 @@
 **/**/dist
 .DS_Store
 *.log
-<<<<<<< HEAD
 data_scripts/Data
 data_scripts/*.csv
-=======
->>>>>>> e5dd378fc2985f5d8cc53a3f0a4006ef1c471ea6
+
+#scripts
+*.Rmd
+*.sh
