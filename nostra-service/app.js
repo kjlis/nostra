@@ -14,7 +14,6 @@ require('./models/Stats');
 mongoose.connect('mongodb://localhost/loans');
 
 //Routes
-const routes = require('./routes/index');
 const loans = require('./routes/geo');
 
 // view engine setup

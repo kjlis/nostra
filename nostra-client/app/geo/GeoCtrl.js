@@ -1,5 +1,3 @@
-import {states} from '../common/USStates';
-
 export class GeoCtrl {
     /*@ngInject;*/
     constructor($resource, $mdDialog, $scope) {
