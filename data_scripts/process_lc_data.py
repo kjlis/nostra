@@ -11,11 +11,15 @@ df1 = pd.concat(pd.read_csv(f, skip_footer= 2, converters={'int_rate': str}, eng
 df1 = df1[df1['id'].apply(lambda x: isinstance(x, (int, long)))]
 df1['id'] = df1['id'].apply(pd.to_numeric)
 
-print 'Converting interest rate'
+print 'Converting interest rate & revolving line utilization'
 def convert_percent(x):
-    return float(x.strip('%'))
+	if isinstance(x, str):
+		return float(x.strip('%'))
+	else:
+		return x
 
 df1['int_rate'] = df1['int_rate'].apply(convert_percent)
+df1['revol_util'] = df1['revol_util'].apply(convert_percent)
 
 print 'Converting employment length & loan term'
 def parse_emp_length(x):
@@ -25,8 +29,10 @@ def parse_emp_length(x):
         return int(filter(str.isdigit, x))
                       
 df1['emp_length'] = df1['emp_length'].apply(parse_emp_length)
-
 df1['term'] = df1['term'].apply(lambda x: int(filter(str.isdigit, x)))
 
+print 'Mapping payment plan to [0, 1]'
+df1['pymnt_plan'] = df1['pymnt_plan'].apply(lambda x: 0 if x == 'n' else 1)
+
 print 'Writing data to lc_data_processed.csv'
-df1.to_csv('lc_data_processed.csv')
+df1.to_csv('lc_data_processed.csv', index= False)
