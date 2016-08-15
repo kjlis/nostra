@@ -4,9 +4,10 @@ const StatsSchema = new mongoose.Schema({
     type: String,
     key: String,
     date: {type: Date, default: Date.now},
-    stats: Object
+    stateStats: Object,
+    countryStats: Object
 }, {
-    collection: 'stats'
+    collection: 'statistics'
 });
 
 mongoose.model('Stats', StatsSchema);

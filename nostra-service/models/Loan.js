@@ -24,7 +24,10 @@ const LoanSchema = new mongoose.Schema({
         purpose: String,
         title: String,
         zip_code: String,
-        addr_state: String,
+        addr_state: {
+            type: String,
+            index: true
+        },
         dti: Number,
         delinq_2yrs: Number,
         earliest_cr_line: Date,

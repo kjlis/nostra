@@ -31,7 +31,7 @@ angular.module('nostra', [
             })
             .state('home.loans', {
                 url: 'loans',
-                templateUrl: './dist/templates/loans.tpl.html'
+                templateUrl: './dist/templates/geo.tpl.html'
             })
             .state('home.investors', {
                 url: 'investors',

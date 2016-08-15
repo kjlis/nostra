@@ -14,7 +14,8 @@ require('./models/Stats');
 mongoose.connect('mongodb://localhost/loans');
 
 //Routes
-const loans = require('./routes/geo');
+const index = require('./routes/index');
+const geo = require('./routes/geo');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,8 +29,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/geo', loans);
+app.use('/', index);
+app.use('/geo', geo);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,25 +1,27 @@
-<md-dialog class="geo" aria-label="State statistics" ng-cloak>
+<md-dialog flex="85" aria-label="State statistics" ng-cloak>
     <form>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>Statistics for {{ geo.selectedRegion.name }}</h2>
+                <h2>Statistics for {{ geo.selectedRegion._id }}</h2>
             </div>
         </md-toolbar>
         <md-dialog-content>
-            <div class="md-dialog-content">
-                <md-list>
-                    <md-list-item ng-repeat="item in geo.selectedRegion.stats">
-                        <div class="stat-item" layout="row" layout-align="space-between center">
-                            <div>
-                                <h4>{{ item.name }}</h4>
-                            </div>
-                            <div>
-                                <p>{{ item.value }}</p>
-                            </div>
-                        </div>
-                        <md-divider ng-if="!$last"></md-divider>
-                    </md-list-item>
-                </md-list>
+            <div class="md-dialog-content" layout="column">
+                <div layout="row">
+                    <h3>Number of loans:</h3> {{geo.selectedRegion.count}}
+                </div>
+                <div layout="row">
+                    <h3>Total loan amount:</h3>
+                    <h4>{{geo.selectedRegion.total}}$</h4>
+                </div>
+                <h3>Financial indicators ($)</h3>
+                <div flex="85" google-chart chart="geo.incomeChart"></div>
+                <h3>Percent indicators (%)</h3>
+                <div google-chart chart="geo.percentIndicatorsChart"></div>
+                <h3>Debt to income ratio</h3>
+                <div layout="row" layout-align="center">
+                    <div layout-align="center center" google-chart chart="geo.dtiChart"></div>
+                </div>
             </div>
 
         </md-dialog-content>

@@ -10,3 +10,6 @@ data_scripts/*.csv
 #scripts
 *.Rmd
 *.sh
+
+#RStudio workspace data
+.R*
