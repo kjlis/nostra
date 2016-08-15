@@ -1,3 +1,5 @@
+require('../common/currencyFormatter');
+
 export class GeoCtrl {
     /*@ngInject;*/
     constructor($resource, $mdDialog, $scope) {

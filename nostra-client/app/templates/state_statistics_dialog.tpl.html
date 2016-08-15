@@ -1,4 +1,4 @@
-<md-dialog flex="85" aria-label="State statistics" ng-cloak>
+<md-dialog flex="85" class="state-dialog" aria-label="State statistics" ng-cloak>
     <form>
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -7,23 +7,31 @@
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content" layout="column">
-                <div layout="row">
-                    <h3>Number of loans:</h3> {{geo.selectedRegion.count}}
+                <div class="loan-stats" layout="row" layout-align="space-around center">
+                    <div layout="row" layout-align="space-around end">
+                        <h3>Number of loans:</h3>
+                        <p>{{geo.selectedRegion.count}}</p>
+                    </div>
+                    <div layout="row" layout-align="space-around end">
+                        <h3>Total loan amount:</h3>
+                        <p>$ {{geo.selectedRegion.total.formatCurrency(2, '.', ',')}}</p>
+                    </div>
                 </div>
-                <div layout="row">
-                    <h3>Total loan amount:</h3>
-                    <h4>{{geo.selectedRegion.total}}$</h4>
-                </div>
-                <h3>Financial indicators ($)</h3>
+                <md-divider></md-divider>
+
+                <h3>Financial indicators [$]</h3>
                 <div flex="85" google-chart chart="geo.incomeChart"></div>
-                <h3>Percent indicators (%)</h3>
+                <md-divider></md-divider>
+
+                <h3>Percent indicators [%]</h3>
                 <div google-chart chart="geo.percentIndicatorsChart"></div>
+                <md-divider></md-divider>
+
                 <h3>Debt to income ratio</h3>
                 <div layout="row" layout-align="center">
                     <div layout-align="center center" google-chart chart="geo.dtiChart"></div>
                 </div>
             </div>
-
         </md-dialog-content>
         <md-dialog-actions>
             <md-button class="md-secondary" ng-click="geo.closeDialog()">Close</md-button>
