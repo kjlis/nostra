@@ -34,5 +34,13 @@ df1['term'] = df1['term'].apply(lambda x: int(filter(str.isdigit, x)))
 print 'Mapping payment plan to [0, 1]'
 df1['pymnt_plan'] = df1['pymnt_plan'].apply(lambda x: 0 if x == 'n' else 1)
 
+print 'Mapping loan statuses'
+df1['defaulted'] = df1['loan_status'].apply(lambda x: 1 if x in ['Charged Off', 'Default'] else 0)
+df1['late'] = df1['loan_status'].apply(lambda x: 1 if x in ['Late (16-30 days)', 'Late (31-120 days)'] else 0)
+
+print 'Calculating loan to income ratio'
+df1['lti'] = df1['loan_amnt']/df1['annual_inc']
+df1['lti'] = df1['lti'].replace([np.inf, -np.inf], np.nan)
+
 print 'Writing data to lc_data_processed.csv'
 df1.to_csv('lc_data_processed.csv', index= False)

@@ -7,16 +7,29 @@
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content" layout="column">
-                <div class="loan-stats" layout="row" layout-align="space-around center">
-                    <div layout="row" layout-align="space-around end">
-                        <h3>Number of loans:</h3>
-                        <p>{{geo.selectedRegion.count}}</p>
+                <div layout="column" layout-align="space-around center">
+                    <div class="loan-stats" layout="row" layout-align="space-around center">
+                        <div layout="row" layout-align="space-around end">
+                            <h3>Number of loans:</h3>
+                            <p>{{geo.selectedRegion.count}}</p>
+                        </div>
+                        <div layout="row" layout-align="space-around end">
+                            <h3>Total loan amount:</h3>
+                            <p>$ {{geo.selectedRegion.total.formatCurrency(2, '.', ',')}}</p>
+                        </div>
                     </div>
-                    <div layout="row" layout-align="space-around end">
-                        <h3>Total loan amount:</h3>
-                        <p>$ {{geo.selectedRegion.total.formatCurrency(2, '.', ',')}}</p>
+                    <div class="loan-stats" layout="row" layout-align="space-around center">
+                        <div layout="row" layout-align="space-around end">
+                            <h3>Average number of open accounts:</h3>
+                            <p>{{geo.selectedRegion.average_open_acc}}</p>
+                        </div>
+                        <div layout="row" layout-align="space-around end">
+                            <h3>Average length of employment [years]:</h3>
+                            <p>{{geo.selectedRegion.average_emp_length}}</p>
+                        </div>
                     </div>
                 </div>
+
                 <md-divider></md-divider>
 
                 <h3>Financial indicators [$]</h3>

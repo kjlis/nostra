@@ -15,7 +15,8 @@ const groupQuery = {
         average_income: {$avg: '$annual_inc'},
         average_installment: {$avg: '$installment'},
         average_revol_util: {$avg: '$revol_util'},
-        average_open_acc: {$avg: '$open_acc'}
+        average_open_acc: {$avg: '$open_acc'},
+        average_emp_length: {$avg: '$emp_length'}
     }
 };
 
@@ -50,7 +51,8 @@ router.get('/:countryCode', (request, response) => {
                                     average_income: (preResult.average_income * preResult.count + currentState.average_income * currentState.count) / currentCount,
                                     average_installment: (preResult.average_installment * preResult.count + currentState.average_installment * currentState.count) / currentCount,
                                     average_revol_util: (preResult.average_revol_util * preResult.count + currentState.average_revol_util * currentState.count) / currentCount,
-                                    average_open_acc: (preResult.average_open_acc * preResult.count + currentState.average_open_acc * currentState.count) / currentCount
+                                    average_open_acc: (preResult.average_open_acc * preResult.count + currentState.average_open_acc * currentState.count) / currentCount,
+                                    average_emp_length: (preResult.average_emp_length * preResult.count + currentState.average_emp_length * currentState.count) / currentCount
                                 };
                             });
 

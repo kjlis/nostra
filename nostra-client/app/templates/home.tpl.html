@@ -2,7 +2,6 @@
     <md-nav-bar md-selected-nav-item="home.currentNavItem" nav-bar-aria-label="navigation">
         <md-nav-item name="home.general" md-nav-sref="home.general">Home</md-nav-item>
         <md-nav-item name="home.loans" md-nav-sref="home.loans">Loan Statistics</md-nav-item>
-        <md-nav-item name="home.investors" md-nav-sref="home.investors">Investor Statistics</md-nav-item>
     </md-nav-bar>
     <md-button class="md-fab md-fab-top-right" ng-click="home.toggleForm()">
         <md-icon>assessment</md-icon>
@@ -88,6 +87,13 @@
             </form>
         </md-card>
         <ui-view class="pd-form" flex="auto" ng-class="{hidden: !home.openForm}"></ui-view>
+        <footer>
+            <md-card>
+                <div class="md-contact-email" layout="row" layout-align="center center">
+                    Copyright® 2016
+                </div>
+            </md-card>
+        </footer>
     </md-content>
 </div>
 

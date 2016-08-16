@@ -5,7 +5,8 @@ const StatsSchema = new mongoose.Schema({
     key: String,
     date: {type: Date, default: Date.now},
     stateStats: Object,
-    countryStats: Object
+    countryStats: Object,
+    otherStats: Object
 }, {
     collection: 'statistics'
 });

@@ -1,6 +1,7 @@
 import angular from 'angular';
 import { HomeCtrl } from './home/HomeCtrl';
 import { GeoCtrl } from './geo/GeoCtrl';
+import { LoansCtrl } from './loans/LoansCtrl';
 
 require('angular-google-chart');
 require('angular-animate');
@@ -31,15 +32,12 @@ angular.module('nostra', [
             })
             .state('home.loans', {
                 url: 'loans',
-                templateUrl: './dist/templates/geo.tpl.html'
-            })
-            .state('home.investors', {
-                url: 'investors',
-                templateUrl: './dist/templates/investors.tpl.html'
+                templateUrl: './dist/templates/loans.tpl.html',
+                controller: 'LoansCtrl as loans'
             });
 
         $urlRouterProvider.otherwise('/geo');
     })
     .controller('HomeCtrl', HomeCtrl)
     .controller('GeoCtrl', GeoCtrl)
-;
+    .controller('LoansCtrl', LoansCtrl);
