@@ -37,7 +37,7 @@ export class LoansCtrl {
                     );
                 }
             }
-            chartObj.data = [['Quality', 'Good', 'Defaulted', {role: 'annotation'}]].concat(rows);
+            chartObj.data = [['Quality', 'Good', 'Bad', {role: 'annotation'}]].concat(rows);
         }
 
         this.statusStats = [];
