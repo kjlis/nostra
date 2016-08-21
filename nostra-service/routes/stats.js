@@ -49,7 +49,10 @@ router.get('/purpose/:countryCode', (request, response) => {
             else {
                 Loan.aggregate([{
                         $group: {
-                            _id: {purpose: '$purpose', defaulted: '$defaulted'},
+                            _id: {
+                                key: '$purpose',
+                                defaulted: '$defaulted'
+                            },
                             count: {$sum: 1}
                         }
                     }], (err, result) => {
@@ -78,14 +81,19 @@ router.get('/grades/:countryCode', (request, response) => {
             }
             else {
                 Loan.aggregate([{
-                        $group: ['$grade', '$defaulted'],
-                        count: {$sum: 1}
+                        $group: {
+                            _id: {
+                                key: '$grade',
+                                defaulted: '$defaulted'
+                            },
+                            count: {$sum: 1}
+                        }
                     }], (err, result) => {
                         if (err) {
                             console.log(err);
                         } else {
-                            Stats.create({type: 'purpose', key: request.params.countryCode, otherStats: result});
-                            response.json({type: 'purpose', key: request.params.countryCode, otherStats: result});
+                            Stats.create({type: 'grades', key: request.params.countryCode, otherStats: result});
+                            response.json({type: 'grades', key: request.params.countryCode, otherStats: result});
                         }
                     }
                 );
@@ -106,8 +114,13 @@ router.get('/employment/:countryCode', (request, response) => {
             }
             else {
                 Loan.aggregate([{
-                        $group: ['$emp_length', '$defaulted'],
-                        count: {$sum: 1}
+                        $group: {
+                            _id: {
+                                key: '$emp_length',
+                                defaulted: '$defaulted'
+                            },
+                            count: {$sum: 1}
+                        }
                     }], (err, result) => {
                         if (err) {
                             console.log(err);
@@ -135,7 +148,10 @@ router.get('/ownership/:countryCode', (request, response) => {
             else {
                 Loan.aggregate([{
                         $group: {
-                            _id: {ownership: '$home_ownership', defaulted: '$defaulted'},
+                            _id: {
+                                key: '$home_ownership',
+                                defaulted: '$defaulted'
+                            },
                             count: {$sum: 1}
                         }
                     }], (err, result) => {
