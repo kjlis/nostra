@@ -5,7 +5,34 @@ export class GeoCtrl {
     constructor($resource, $mdDialog, $scope) {
         this._mdDialog = $mdDialog;
         this._scope = $scope;
-        this.geoResource = $resource('/geo/:countryCode', {countryCode: '@_id'});
+        const geoResource = $resource('/geo/:countryCode', {countryCode: '@_id'});
+        const purposeResource = $resource('/stats/purpose/:countryCode', {countryCode: 'US'});
+        const ownershipResource = $resource('/stats/ownership/:countryCode', {countryCode: 'US'});
+
+        function convertToWordcloud(response, targetArray){
+            let words = {};
+            response.otherStats.forEach((stat) => {
+                words[stat._id.key] = words[stat._id.key] || 0;
+                words[stat._id.key] += stat.count;
+            });
+            for(let property in words) {
+                if (words.hasOwnProperty(property)){
+                    targetArray.push({text: property, weight: words[property]});
+                }
+            }
+            console.log(targetArray);
+        }
+
+        this.purposeWordcloud = [];
+        purposeResource.get((response) => {
+            convertToWordcloud(response, this.purposeWordcloud)
+        });
+
+        this.ownershipWordcloud = [];
+        ownershipResource.get((response) => {
+            convertToWordcloud(response, this.ownershipWordcloud)
+        });
+
         this.stateData = [['State', 'Total loan amnt.']];
         this.chart = {
             type: 'GeoChart',
@@ -15,7 +42,7 @@ export class GeoCtrl {
                 resolution: 'provinces'
             }
         };
-        this.country = this.geoResource.get({countryCode: 'US'}, () => {
+        this.country = geoResource.get({countryCode: 'US'}, () => {
             this.country.stateStats.forEach((stat) => {
                 this.stateData.push([stat._id, stat.total]);
             });

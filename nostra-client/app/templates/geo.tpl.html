@@ -9,3 +9,11 @@
              agc-on-select="geo.selectRegion(selectedItem)"></div>
     </md-card-content>
 </md-card>
+<div layout="row">
+    <md-card flex="50">
+        <ng-tag-cloud cloud-data="geo.purposeWordcloud"></ng-tag-cloud>
+    </md-card>
+    <md-card flex="50">
+        <ng-tag-cloud cloud-data="geo.ownershipWordcloud"></ng-tag-cloud>
+    </md-card>
+</div>

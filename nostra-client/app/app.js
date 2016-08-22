@@ -9,12 +9,15 @@ require('angular-aria');
 require('angular-messages');
 require('angular-material');
 
+require('angular-tag-cloud');
+
 angular.module('nostra', [
     require('angular-ui-router'),
     require('angular-resource'),
     'ngMaterial',
     'ngMessages',
-    'googlechart'
+    'googlechart',
+    'ngTagCloud'
 ])
     .config(($stateProvider, $urlRouterProvider) => {
         'ngInject';
