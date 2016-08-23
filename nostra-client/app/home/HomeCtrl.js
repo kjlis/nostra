@@ -21,7 +21,7 @@ export class HomeCtrl {
 
         this.searchText = null;
 
-        this.openForm = true;
+        this.openForm = false;
 
         this.Loan = $resource('/loan/:id', {id: '@id'}, {
             calculatePD: {method: 'POST'},

@@ -1,19 +1,32 @@
-<md-card>
-    <md-card-header>
-        <md-card-header-text>
-            <span class="md-title">Loan Statistics by State</span>
-        </md-card-header-text>
-    </md-card-header>
-    <md-card-content>
-        <div google-chart chart="geo.chart"
-             agc-on-select="geo.selectRegion(selectedItem)"></div>
-    </md-card-content>
-</md-card>
 <div layout="row">
-    <md-card flex="50">
-        <ng-tag-cloud cloud-data="geo.purposeWordcloud"></ng-tag-cloud>
+    <md-card flex>
+        <md-card-header>
+            <div layout="row">
+                <md-icon>location_on</md-icon>
+                <span class="md-title">Loan Statistics by State</span>
+            </div>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content>
+            <div google-chart chart="geo.chart"
+                 agc-on-select="geo.selectRegion(selectedItem)"></div>
+        </md-card-content>
     </md-card>
-    <md-card flex="50">
-        <ng-tag-cloud cloud-data="geo.ownershipWordcloud"></ng-tag-cloud>
+    <md-card>
+        <md-card-header>
+            <div layout="row">
+                <md-icon>trending_up</md-icon>
+                <span class="md-title">Trends</span>
+           </div>
+        </md-card-header>
+        <md-divider></md-divider>
+        <md-card-content>
+            <div layout="column" layout-align="space-around center">
+                <h4>Most popular loan purposes</h4>
+                <ng-tag-cloud cloud-width="250" cloud-height="250" cloud-data="geo.purposeWordcloud"></ng-tag-cloud>
+                <h4>Most popular house ownership types</h4>
+                <ng-tag-cloud cloud-width="250" cloud-height="250" cloud-data="geo.ownershipWordcloud"></ng-tag-cloud>
+            </div>
+        </md-card-content>
     </md-card>
 </div>
