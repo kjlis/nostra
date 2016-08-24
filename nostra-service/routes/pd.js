@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const PD = mongoose.model('PD');
+let R = require('r-script');
 
 router.post('/', (request, response) => {
     let loan = new PD({loanDetails: request.body.loanDetails});
@@ -9,8 +10,7 @@ router.post('/', (request, response) => {
         if(err) {
             throw err;
         }
-        console.log(loan.id);
-        loan.pd = 5.51;
+        loan.pd = 5.42;
         loan.save();
         response.json(loan);
     });
@@ -27,6 +27,14 @@ router.post('/:loanId', (request, response) => {
         });
     });
 
+});
+
+router.post('/test/abc', (reqest, response) => {
+    var out = R('pd_scripts/dummyPD.R')
+        .data({minVal: 1, maxVal: 6})
+        .callSync();
+    console.log(out);
+    response.json(out);
 });
 
 module.exports = router;

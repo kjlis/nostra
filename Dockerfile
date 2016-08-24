@@ -1,5 +1,8 @@
 FROM node:6.3.1
 
+RUN apt-get update && apt-get -y upgrade
+RUN apt-get -y install r-base
+
 RUN mkdir -p /usr/nostra
 WORKDIR /usr/nostra
 
