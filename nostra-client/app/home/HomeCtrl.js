@@ -23,7 +23,7 @@ export class HomeCtrl {
 
         this.openForm = false;
 
-        this.Loan = $resource('/loan/:id', {id: '@id'}, {
+        this.Loan = $resource('/pd/:id', {id: '@_id'}, {
             calculatePD: {method: 'POST'},
             saveDecision: {method: 'POST'}
         });
@@ -45,7 +45,8 @@ export class HomeCtrl {
 
     calculatePD(isValid) {
         if (isValid) {
-            this.currentLoan = this.Loan.calculatePD(this.loanDetails);
+            console.log(this.loanDetails);
+            this.currentLoan = this.Loan.calculatePD({loanDetails: this.loanDetails});
             console.log(this.currentLoan);
             this._mdDialog.show({
                 clickOutsideToClose: false,
