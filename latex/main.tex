@@ -1,0 +1,256 @@
+\pdfoutput=1
+\pdfcompresslevel=9
+\pdfinfo
+{
+	/Author (Krzysztof Lis)
+	/Title (Projekt systemu wspomagającego ocenę ryzyka kredytowego w oparciu o dane historyczne)
+	/Subject (Tematyka)
+	/Keywords (Slowa kluczowe)
+}
+%\documentclass[a4paper,polish,onecolumn,oneside,floatssmall,11pt,titleauthor,wide,openright]{mwrep}
+%\usepackage[scale={0.7,0.8},paper=a4paper,twoside]{geometry}
+\documentclass[a4paper,onecolumn,oneside,11pt,wide,floatssmall]{mwrep}
+%\usepackage{polish}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bookman}
+\usepackage{verbatim}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{appendix}
+\usepackage{geometry}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+% \usepackage{t1enc}
+% \usepackage[pdftex, bookmarks]{hyperref}
+\usepackage[pdftex, bookmarks=false]{hyperref}
+\def\url#1{{ \tt #1}}
+
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{lscape}
+% marginesy
+\textwidth\paperwidth
+\advance\textwidth -55mm
+\oddsidemargin-0.9in
+\advance\oddsidemargin 33mm
+\evensidemargin-0.9in
+\advance\evensidemargin 33mm
+\topmargin -1in
+\advance\topmargin 25mm
+\setlength\textheight{48\baselineskip}
+\addtolength\textheight{\topskip}
+\marginparwidth15mm
+
+\clubpenalty=10000 % to kara za sierotki
+\widowpenalty=10000 % nie pozostawia wdów
+\brokenpenalty=10000 % nie dzieli wyrazów pomiędzy stronami
+\sloppy
+
+\tolerance4500
+\pretolerance250
+\hfuzz=1.5pt
+\hbadness1450
+
+% ŻYWA PAGINA
+\renewcommand{\chaptermark}[1]{\markboth{\scshape\small\bfseries \
+		#1}{\small\bfseries \ #1}}
+\renewcommand{\sectionmark}[1]{\markboth{\scshape\small\bfseries\thesection.\
+		#1}{\small\bfseries\thesection.\ #1}}
+\newcommand{\headrulewidth}{0.5pt}
+\newcommand{\footrulewidth}{0.pt}
+\pagestyle{uheadings}
+
+\usepackage[pdftex]{color,graphicx,xcolor}
+\usepackage[polish]{babel}
+
+% \textheight232mm
+% \setlength{\textwidth}{\textwidth}
+% \setlength{\oddsidemargin}{\evensidemargin}
+% \setlength{\evensidemargin}{0.3cm}
+\usepackage[sort, compress]{cite}
+
+%\usepackage{multibib}
+%\newcites{bk,st,doc,web}{Książki i~artykuły,Standardy i~zalecenia,Dokumentacja produktów,Publikacje i~serwisy internetowe}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definicja}[section]
+\newtheorem{conj}{Teza}[section]
+\newtheorem{conjmain}{Teza}
+\newtheorem{exmp}{Przykład}[section]
+
+\theoremstyle{plain}% default
+\newtheorem{thm}{Twierdzenie}[section]
+\newtheorem{lem}[thm]{Lemat}
+\newtheorem{prop}[thm]{Hipoteza}
+\newtheorem*{cor}{Wniosek}
+
+\theoremstyle{remark}
+\newtheorem*{rem}{Uwaga}
+\newtheorem*{note}{Uwaga}
+\newtheorem{case}{Przypadek}
+
+\definecolor{ListingBackground}{rgb}{1,1,1}
+\definecolor{keyWords}{rgb}{0.5,0,0.33}
+\definecolor{comments}{rgb}{0.4,0.4,0.4}
+\linespread{1.5}
+\setitemize[0]{itemindent=26pt,leftmargin=0pt,topsep=0pt}
+\vspace{-5mm}
+%Dodanie możliwości zakresu numerownia w jednym punkcie enumerate
+\def\itemrange#1{%
+	\addtocounter{enumi}{1}%
+	\edef\labelenumi{\theenumi--\noexpand\theenumi.}%
+	\addtocounter{enumi}{-1}%
+	\addtocounter{enumi}{#1}%
+	\item
+	\def\labelenumi{\theenumi.}}
+
+\lstset{   
+	belowcaptionskip=1\baselineskip,
+	breaklines=true,
+	frame=L,
+	xleftmargin=\parindent,
+	language=Scala,
+	showstringspaces=false,
+	keywordstyle=\bfseries\color{green!40!black},
+	commentstyle=\itshape\color{purple!40!black},
+	identifierstyle=\color{blue},
+	stringstyle=\color{orange},
+	numbers=left,
+	numberstyle=\small,
+	showstringspaces=false  
+}
+\newcommand*\justify{%
+	\fontdimen2\font=0.4em% interword space
+	\fontdimen3\font=0.2em% interword stretch
+	\fontdimen4\font=0.1em% interword shrink
+	\fontdimen7\font=0.1em% extra space
+	\hyphenchar\font=`\-% allowing hyphenation
+}
+
+\begin{document}
+	
+	% kody źródłowe wplatane w tekst
+	\lstdefinestyle{incode}
+	{
+		basicstyle={\footnotesize},
+		keywordstyle={\bf\footnotesize\color{keyWords}},
+		commentstyle={\em\footnotesize\color{comments}},
+		numbers=left,
+		stepnumber=5,
+		firstnumber=1,
+		numberfirstline=true,
+		numberblanklines=true,
+		numberstyle={\sf\tiny},
+		numbersep=10pt,
+		tabsize=2,
+		xleftmargin=17pt,
+		framexleftmargin=3pt,
+		framexbottommargin=2pt,
+		framextopmargin=2pt,
+		framexrightmargin=0pt,
+		showstringspaces=true,
+		backgroundcolor={\color{ListingBackground}},
+		extendedchars=true,
+		% title=\lstname,
+		captionpos=b,
+		% abovecaptionskip=1pt,
+		% belowcaptionskip=1pt,
+		frame=tb,
+		framerule=0pt,
+	}
+	
+	% kody źródłowe z podpisem
+	\lstdefinestyle{outcode}
+	{
+		basicstyle={\footnotesize},
+		keywordstyle={\bf\footnotesize\color{keyWords}},
+		commentstyle={\em\footnotesize\color{comments}},
+		numbers=left,
+		stepnumber=5,
+		firstnumber=1,
+		numberfirstline=true,
+		numberblanklines=true,
+		numberstyle={\sf\tiny},
+		numbersep=10pt,
+		tabsize=2,
+		xleftmargin=17pt,
+		framexleftmargin=3pt,
+		framexbottommargin=2pt,
+		framextopmargin=2pt,
+		framexrightmargin=0pt,
+		showstringspaces=true,
+		backgroundcolor={\color{ListingBackground}},
+		extendedchars=true,
+		% title=\lstname,
+		captionpos=b,
+		% abovecaptionskip=1pt,
+		% belowcaptionskip=1pt,
+		frame=tb,
+		framerule=0.1pt,
+	}
+	
+	
+	
+	\renewcommand*\lstlistingname{Wydruk}
+	\renewcommand*\lstlistlistingname{Spis wydruków}
+	\renewcommand{\labelitemii}{$\star$}
+	\renewcommand*\tablename{Tabela}
+	
+	\pagenumbering{roman}
+	\renewcommand{\baselinestretch}{1.0}
+	\raggedbottom
+	%\input {tex/title}
+	
+	\tableofcontents
+	% \addcontentsline{toc}{chapter}{{Przedmowa1}{vii}}{vii}
+	
+	% \chapter*{Spis tablic, rysunków i~wydruków}
+	% \listoftables
+	% \listoffigures
+	% \lstlistoflistings
+	
+	%\setlength{\baselineskip}{7mm}
+	\newpage
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+	
+	\input{1_Introduction}
+	\input{2_CreditRisk}
+	\input{5_Docker}
+
+	\bibliographystyle{unsrt}
+	\bibliography{sample} 
+	\begin{appendices}
+		\chapter{Załączniki}
+		\begin{description}
+			\item \textbf{RxConcurrency} \\
+			Aplikacja służąca do obliczenia liczby Pi z dokładnością do podanej liczby miejsc po przecinku. \\
+			Pokazująca możliwości paradygmatu reaktywnego w kwestiach współbieżności. \\
+			Wykorzystane narzędzia: ReactiveX
+			\item \textbf{RxPath} \\
+			Aplikacja służąca do rysowania ścieżki na ekranie. \\
+			Pokazująca możliwości paradygmatu reaktywnego w obsłudze zdarzeń. \\
+			Wykorzystane narzędzia: ReactiveX, SodiumFRP
+			\item \textbf{RxProcessing}\\ 
+			Aplikacja służąca do zliczania linii z literą 'a' i 'b' w podanym pliku.\\
+			Pokazująca możliwości paradygmatu reaktywnego w przetwarzaniu danych. \\
+			Wykorzystane narzędzia: ReactiveX, Apache Spark
+			\item \textbf{RxSolarsystem} \\
+			Aplikacja symulująca Układ Słoneczny. \\
+			Pokazująca nowe możliwości w tworzeniu architektury oprogramowania.  \\
+			Wykorzystane narzędzia: ReactiveX
+		\end{description}
+	\end{appendices}
+\end{document}
+
+% ex: set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab fileformat=unix filetype=tex spelllang=pl,en spell:
+
+
+
+
+
+

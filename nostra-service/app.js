@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 require('./models/Loan');
 require('./models/Stats');
 require('./models/PD');
-mongoose.connect('mongodb://localhost/loans');
+mongoose.connect('mongodb://172.17.0.2/loans');
 
 //Routes
 const index = require('./routes/index');
