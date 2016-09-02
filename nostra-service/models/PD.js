@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const PD = new mongoose.Schema({
     loanDetails: Object,
-    pd: Number,
+    behaviour: String,
     accepted: Boolean
 }, {
     collection: 'pd'

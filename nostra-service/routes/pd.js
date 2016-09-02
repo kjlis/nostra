@@ -12,7 +12,7 @@ router.post('/', (request, response) => {
         if(err) {
             throw err;
         }
-        loan.pd = 5.42;
+        loan.behaviour = 'positive';
         loan.save();
         response.json(loan);
     });

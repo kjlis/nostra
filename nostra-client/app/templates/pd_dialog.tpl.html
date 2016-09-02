@@ -1,13 +1,13 @@
-<md-dialog aria-label="Probability of Default" ng-cloak>
+<md-dialog aria-label="Classification result" ng-cloak>
     <form>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>Probability of Default</h2>
+                <h2>Classification Result</h2>
             </div>
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
-                The calculated probability of default for this loan is: <strong>{{ home.currentLoan.pd }}%</strong>
+                Based on historic data the future behaviour of this loan should be: <strong>{{ home.currentLoan.behaviour }}</strong>
                 Would you accept this loan?
             </div>
         </md-dialog-content>
