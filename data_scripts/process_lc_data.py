@@ -2,7 +2,7 @@ import glob
 import numpy as np
 import pandas as pd
 
-csv_files = glob.glob('./Data/LoanStats*.csv')
+csv_files = glob.glob('./Data/LoanStats3d.csv')
 print 'Will merge the following files:'
 print csv_files
 
@@ -35,8 +35,7 @@ print 'Mapping payment plan to [0, 1]'
 df1['pymnt_plan'] = df1['pymnt_plan'].apply(lambda x: 0 if x == 'n' else 1)
 
 print 'Mapping loan statuses'
-df1['defaulted'] = df1['loan_status'].apply(lambda x: 1 if x in ['Charged Off', 'Default'] else 0)
-df1['late'] = df1['loan_status'].apply(lambda x: 1 if x in ['Late (16-30 days)', 'Late (31-120 days)'] else 0)
+df1['defaulted'] = df1['loan_status'].apply(lambda x: 1 if x in ['Charged Off', 'Default', 'Late (16-30 days)', 'Late (31-120 days)'] else 0)
 
 print 'Calculating loan to income ratio'
 df1['lti'] = df1['loan_amnt']/df1['annual_inc']
