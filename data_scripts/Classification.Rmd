@@ -1,0 +1,89 @@
+---
+title: "Lending Club CTree"
+author: "Krzysztof Lis"
+date: "15 August 2016"
+output: html_document
+---
+
+## Import data
+```{r load, echo=FALSE, warning=FALSE, message=FALSE}
+library(readr)
+library(plyr)
+library(dplyr)
+library(Hmisc)
+library(party)
+library(rpart)
+library(ROCR)
+library(nnet)
+set.seed(1)
+
+LOANS_DATA <- read_csv('lc_data_processed.csv')
+#Select variables
+SELECTED_DATA <- LOANS_DATA[, c('int_rate', 'loan_amnt', 'emp_length', 'annual_inc', 'delinq_2yrs', 'dti','term','defaulted')]
+SELECTED_DATA$paid_amount_ratio <- LOANS_DATA$total_rec_prncp/LOANS_DATA$loan_amnt
+#Remove rows with NA values
+SELECTED_DATA <- na.omit(SELECTED_DATA)
+
+#Correlation with 'defaulted'
+#numeric_vars <- sapply(SELECTED_DATA, is.numeric)
+
+rcorr(as.matrix(SELECTED_DATA))
+summary(SELECTED_DATA$defaulted)
+```
+
+Prepare data sets: training, test, validation
+
+```{r load, echo=FALSE, warning=FALSE, message=FALSE}
+LABELS <- rep(rep(c("training", "test", "validation"), c(7,2,1)), len = nrow(SELECTED_DATA))
+observation.type <- factor((sample(LABELS, nrow(SELECTED_DATA))))
+SPLITTED_DATA <- split(SELECTED_DATA, observation.type)
+
+nrow(SPLITTED_DATA$training)
+nrow(SPLITTED_DATA$test)
+nrow(SPLITTED_DATA$validation)
+```
+
+Run CTree
+```{r load, echo=FALSE, warning=FALSE, message=FALSE}
+ctree.model <- ctree(factor(defaulted) ~ ., data = SPLITTED_DATA$training, controls = ctree_control(mincriterion = 0.99, minsplit = 20000))
+plot(ctree.model, tnex = 2, type = "extended")
+confusion.matrix <- list()
+cat("Macierz trafno??ci ctree")
+confusion.matrix[[1]] <- table(predict(ctree.model, new = SPLITTED_DATA$test), SPLITTED_DATA$test$defaulted)
+confusion.matrix[[2]] <- table(predict(ctree.model, new = SPLITTED_DATA$validation), SPLITTED_DATA$validation$defaulted)
+
+confusion.matrix[[1]]
+confusion.matrix[[2]]
+```
+
+CTree adjustments
+```{r load, echo=FALSE, warning=FALSE, message=FALSE}
+ctree.model_1 <- ctree(factor(defaulted) ~ paid_amount_ratio + int_rate + term, 
+                      data = SPLITTED_DATA$training, controls = ctree_control(mincriterion = 0.9999999999, minsplit = 55000))
+plot(ctree.model_1, tnex = 2, type = "extended")
+confusion.matrix_1 <- list()
+cat("Macierz trafno??ci ctree")
+confusion.matrix_1[[1]] <- table(predict(ctree.model_1, new = SPLITTED_DATA$test), SPLITTED_DATA$test$defaulted)
+confusion.matrix_1[[2]] <- table(predict(ctree.model_1, new = SPLITTED_DATA$validation), SPLITTED_DATA$validation$defaulted)
+
+confusion.matrix_1[[1]]
+confusion.matrix_1[[2]]
+```
+
+```{r load, echo=FALSE, warning=FALSE, message=FALSE}
+ctree.model_2 <- ctree(factor(defaulted) ~ paid_amount_ratio + term, 
+                      data = SPLITTED_DATA$training, controls = ctree_control(mincriterion = 0.9999999999, minsplit = 55000))
+#plot(ctree.model_2, tnex = 2, type = "extended")
+confusion.matrix_2 <- list()
+cat("Macierz trafno??ci ctree")
+confusion.matrix_2[[1]] <- table(predict(ctree.model_2, new = SPLITTED_DATA$test), SPLITTED_DATA$test$defaulted)
+confusion.matrix_2[[2]] <- table(predict(ctree.model_2, new = SPLITTED_DATA$validation), SPLITTED_DATA$validation$defaulted)
+
+confusion.matrix_2[[1]]
+confusion.matrix_2[[2]]
+```
+
+Save the best model:
+```{r load, echo=FALSE, warning=FALSE, message=FALSE}
+save(ctree.model_2, file="prediction_model.rda")
+```

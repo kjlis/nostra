@@ -63,6 +63,7 @@ export class HomeCtrl {
         this._mdDialog.hide();
         this.currentLoan.accepted = isAccepted;
         this.currentLoan.$save();
+        this.currentLoan = null;
     }
 
 }

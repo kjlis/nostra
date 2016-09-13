@@ -7,7 +7,8 @@
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
-                Based on historic data the future behaviour of this loan should be: <strong>{{ home.currentLoan.behaviour }}</strong>
+                Based on historic data the future behaviour of this loan should be: <md-progress-circular class="classification-progress" ng-hide="home.currentLoan.behaviour" md-diameter="20" md-mode="indeterminate"></md-progress-circular>
+                <strong>{{ home.currentLoan.behaviour }}</strong><br>
                 Would you accept this loan?
             </div>
         </md-dialog-content>

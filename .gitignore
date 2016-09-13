@@ -7,9 +7,5 @@
 data_scripts/Data
 data_scripts/*.csv
 
-#scripts
-*.Rmd
-*.sh
-
 #RStudio workspace data
 .R*

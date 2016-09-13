@@ -2,7 +2,7 @@ import glob
 import numpy as np
 import pandas as pd
 
-csv_files = glob.glob('./Data/LoanStats3d.csv')
+csv_files = glob.glob('./Data/LoanStats*.csv')
 print 'Will merge the following files:'
 print csv_files
 
