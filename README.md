@@ -20,7 +20,7 @@ The recommended way of running MongoDB server is to use [the official Docker ima
 ## Running the application
 
 1. Start MongoDB server.
-2. Build Docker image (optional - applicable if you want to create the image locally). Run from root directory level:
+2. Build Docker image (optional - applicable if you want to create the image locally, otherwise the image will be pulled from DockerHub). Run from root directory level:
 `docker build -t kjlis/nostra .`
 3. Start application. Run:
 `docker run --name nostra -p 8000:3000 --link nostra-lc-db:mongo -d kjlis/nostra`
