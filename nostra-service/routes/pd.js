@@ -32,8 +32,8 @@ router.post('/:loanId', (request, response) => {
 });
 
 router.post('/test/abc', (reqest, response) => {
-    console.log('pd_scripts/dummyPD.R');
-    fs.stat('pd_scripts/dummyPD.R', (err, stats) => {
+    console.log('pd_scripts/classify.R');
+    fs.stat('pd_scripts/classify.R', (err, stats) => {
         if(err) {
             console.log(err);
         } else {
@@ -42,24 +42,17 @@ router.post('/test/abc', (reqest, response) => {
     });
 
 
-    var out = R('pd_scripts/dummyPD.R')
-        .data({minVal: 1, maxVal: 6})
+    var out = R('pd_scripts/classify.R')
+        .data({req_term: 36, req_ratio: 0.9})
         .call((err, out) => {
             if(err) {
                 console.log('ERROR');
                 console.log(err);
             } else {
                 console.log(out);
-                response.json(out);
+                response.json(out === 0 ? 'positive' : 'negative');
             }
         });
-    fs.stat('pd_scripts/dummyPD.R', (err, stats) => {
-        if(err) {
-            console.log(err);
-        } else {
-            console.log(stats);
-        }
-    });
     // console.log(out);
     // response.json(out);
 });
